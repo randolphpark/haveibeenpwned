@@ -32,7 +32,8 @@ defmodule Mix.Tasks.Hibp.Text.Download do
   @save_path Application.app_dir(:haveibeenpwned, "priv/hibp_text")
 
   @default_extract_command '7z e #{@save_path} -opriv'
-  @extract_command Application.get_env(:haveibeenpwned, :decompress_command) || @default_extract_command
+  @extract_command Application.get_env(:haveibeenpwned, :decompress_command) ||
+                     @default_extract_command
 
   @doc false
   def run(_) do
@@ -42,8 +43,12 @@ defmodule Mix.Tasks.Hibp.Text.Download do
       {:ok, path} ->
         Logger.info("Successfully downloaded text database archive to #{path}")
         extract_text_database()
-      {:error, :eexist} -> Logger.info("Text database already exists")
-      _ -> Logger.error("An unknown error occured while downloading")
+
+      {:error, :eexist} ->
+        Logger.info("Text database already exists")
+
+      _ ->
+        Logger.error("An unknown error occured while downloading")
     end
   end
 

@@ -61,4 +61,22 @@ defmodule Haveibeenpwned.Database do
   end
 
   defp significant_hash(<<head::binary-size(@sha_byte_size), _tail::binary-size(10)>>), do: head
+
+  def hibp(password) do
+    password
+    |> hash_binary()
+    |> significant_hash()
+    |> :binary.bin_to_list()
+    |> Elixir.Nifread.password_pwned()
+
+    # target = 
+    # Elixir.Nifread.password_pwned([45, 177, 142, 29, 152, 231, 171, 127, 73, 222])
+  end
+end
+
+defmodule Nifread do
+  use Rustler, otp_app: :haveibeenpwned, crate: "nifread"
+
+  # When your NIF is loaded, it will override this function.
+  def password_pwned(_a), do: :erlang.nif_error(:nif_not_loaded)
 end

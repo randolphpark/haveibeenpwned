@@ -213,5 +213,16 @@ If you're contributing, you can run the test suite with
 $ mix test
 ```
 
+## Benchmark
+```
+Benchee.run(%{"rustler" => fn -> Haveibeenpwned.Database.hibp("123456") end, "elixir" => fn -> Haveibeenpwned.Database.password_pwned?("123456") end, } )
+```
+
+```
+Haveibeenpwned.Database.password_pwned?("12345665465465464")
+Haveibeenpwned.Database.hibp("123456")
+```
+
 ## License
 This package is available as open source under the [MIT License](https://opensource.org/licenses/MIT)
+
